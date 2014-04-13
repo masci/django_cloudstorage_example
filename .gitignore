@@ -43,3 +43,6 @@ _build
 
 # Sqlite database files
 *.sqlite
+*.sqlite3
+
+media
