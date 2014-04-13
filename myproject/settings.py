@@ -1,19 +1,8 @@
 # -*- coding: utf-8 -*-
-# Django settings for myproject project.
-
-
-### CUSTOM SETTINGS ###
-# Akseli Palén 2013-01-30
-#
-# PROJECT_ROOT
-#   Absolute path to the directory of this file (settings.py).
-#   Will be helpful when absolute filesystem paths are required.
-#   http://www.ramavadakattu.com/top-10-tips-to-a-new-django-developer
-#
 import os
-PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
-### </CUSTOM SETTINGS> ###
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -24,16 +13,11 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+import appengine_toolkit
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(PROJECT_ROOT, 'database/database.sqlite3'),                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
+    'default': appengine_toolkit.config(),
 }
+
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -60,18 +44,12 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
 MEDIA_URL = '/media/'
-
-# Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -89,7 +67,6 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -99,7 +76,6 @@ SECRET_KEY = 'nu*@78!uk9o5(nyiqfgj1*kn9cka0fwuz@d8@w#bjz^%jm-vgm'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -108,8 +84,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 ROOT_URLCONF = 'myproject.urls'
@@ -130,11 +104,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
-    
+
+    'appengine_toolkit',
     'myproject.myapp',
 )
 
@@ -166,3 +137,10 @@ LOGGING = {
         },
     }
 }
+
+APPENGINE_TOOLKIT = {
+    'APP_YAML': os.path.join(BASE_DIR, 'app.yaml'),
+    'BUCKET_NAME': 'media-uploads',
+}
+DEFAULT_FILE_STORAGE = 'appengine_toolkit.storage.GoogleCloudStorage'
+STATICFILE_STORAGE = 'appengine_toolkit.storage.GoogleCloudStorage'
