@@ -46,3 +46,4 @@ _build
 *.sqlite3
 
 media
+libs
