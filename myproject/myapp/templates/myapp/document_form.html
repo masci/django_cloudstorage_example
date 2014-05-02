@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Minimal Django File Upload Example</title>	
+	</head>
+
+	<body>
+    <ul>
+    {% for object in object_list %}
+      <li>
+        <form action="{% url 'delete' object.id %}" method="post">{% csrf_token %}
+          <a href="{{ object.docfile.url }}">{{ object.docfile.name }}</a>
+          <input type="submit" value="Delete" />
+        </form>
+      </li>
+    {% empty %}
+      <li>No documents.</li>
+    {% endfor %}
+    </ul>
+
+    <form  enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Upload" />
+    </form>
+		
+	</body>
+</html> 
