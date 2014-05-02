@@ -1,4 +1,4 @@
-# Django Upload Example on Google Cloud Storage
+# Django uploads on Google Cloud Storage
 
 Minimal project showing how to upload files on GCS through a Django application.
 
